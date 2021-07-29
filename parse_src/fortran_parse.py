@@ -13,10 +13,10 @@ def manipulate_csv():
 def process_parse(temp):
 
     out = {}
-
+    print(temp)
     out['result'] = temp[0]
-    line = temp[1].split('    ')
-    out['sequence_length'] = line[1]
+    line = temp[1].split()
+    out['sequence_length'] = line[2]
 
     res = [temp.index(i) for i in temp if 'Whole' in i]
     names = ['nu_model','b_turn','r_model']
