@@ -18,19 +18,10 @@ Run configure script
 ```
 bash parse_src/configure.sh 
 ```
-Change path in `cmd2web/ex_configs/tabix_config.json
+Change `command` path in `cmd2web/ex_configs/tabix_config.json
 ```
         "name" : "parse",
-        "arguments" : 
-        [
-
-            {
-                "name" : "sequence",
-                "fixed" : "false",
-                "type" : "string"
-            }
-
-        ],
+        ...
         "command":
         [
             "gfortran -o /home/user/parse_webapp/cmd2web/src/web_src/static/js/Parse.exe /home/user/parse_webapp/cmd2web/src/web_src/static/js/Parse.f",
