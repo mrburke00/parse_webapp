@@ -18,6 +18,26 @@ Run configure script
 ```
 bash parse_src/configure.sh 
 ```
+Change path in `cmd2web/ex_configs/tabix_config.json
+```
+        "name" : "parse",
+        "arguments" : 
+        [
+
+            {
+                "name" : "sequence",
+                "fixed" : "false",
+                "type" : "string"
+            }
+
+        ],
+        "command":
+        [
+            "gfortran -o /home/user/parse_webapp/cmd2web/src/web_src/static/js/Parse.exe /home/user/parse_webapp/cmd2web/src/web_src/static/js/Parse.f",
+            "&& /home/user/parse_webapp/cmd2web/src/web_src/static/js/./Parse.exe ",
+            "$sequence"
+        ],
+```
 Start Server (need to change a few paths in tabix_config.json)
 ```
 python cm2web/src/server.py --config cmd2web/ex_configs/tabix_config.json 
