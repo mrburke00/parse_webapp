@@ -13,7 +13,6 @@ def manipulate_csv():
 def process_parse(temp):
 
     out = {}
-    print(temp)
     out['result'] = temp[0]
     line = temp[1].split()
     out['sequence_length'] = line[2]
