@@ -297,7 +297,7 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Plot 2</h6>
                         </div>
-                                <svg id='color_plot' width="900" height="500"></svg>
+                                <div id='color_plot' ></div>
 
                     </div>
                 </div>
@@ -350,126 +350,6 @@ for (var i = 0; i < table_data.length; i++){
 
 </script>
 
-
-<script>
-
-    var svg1 = d3.select("#color_plot"),
-        margin = 200,
-        width = svg1.attr("width") - margin,
-        height = svg1.attr("height") - margin;
-
-
-    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
-        yScale = d3.scaleLinear().range ([height, 0]);
-
-    var g = svg1.append("g")
-               .attr("transform", "translate(" + 100 + "," + 100 + ")");
-
-    // create a tooltip
-  var Tooltip = d3.select("#color_plot")
-    .append("svg")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "black")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    Tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function(d) {
-    console.log(d.col4)
-    Tooltip
-      .html("The exact value of<br>this cell is: " + d.col4)
-      .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
-  }
-  var mouseleave = function(d) {
-    Tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
-
-
- d3.csv("/js/residue_level_rmodel_new.csv", function(error, data) {
-    if (error) {
-        throw error;
-    }
-
-
-        xScale.domain(data.map(function(d) { return d.col1; }));
-        yScale.domain([d3.min(data, function(d) { return d.col4; }), d3.max(data, function(d) { return d.col4; })]);
-
-
-        g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale).tickValues(xScale.domain().filter(function(d,i){ return !(i%50)})))
-         .append("text")
-         //.attr("y", height/2)
-         //.attr("x", width/2)
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("Residue Number");
- 
-
-        g.append("g")
-         .call(d3.axisLeft(yScale).tickFormat(function (d){
-            return d3.format(".1f")(d);
-        }))
-        .append("text")
-         .attr("transform", "rotate(-90)")
-         .attr("y", 6)
-         .attr("dy", "-5.1em")
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("r Model Value");
-
-        g.selectAll(".bar")
-         .data(data)
-         .enter().append("rect")
-         .attr("class", "bar")
-         .attr("x", function(d) { return xScale(d.col1); })
-         .attr("y", function(d) { return yScale(d.col4); })
-         .attr("width", xScale.bandwidth())
-         .attr("height", function(d) { return height - yScale(d.col4); })
-         .attr("fill", function(d){
-            JSON.stringify(d);
-            if (d.col3 == ' D')
-            {
-                return 'blue';
-            }
-            else if (d.col3 == ' F')
-            {
-                return 'black';
-            }
-            else
-            {
-                return 'red'
-            }
-         })
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
-
-
-    });
-         //.attr("height", function(d) { return height - yScale(d.col4); });
-
-
-    //});
-
-</script>
-
-
 <script>
     // set the dimensions and margins of the graph
     var margin = {top: 0, right: 0, bottom:250, left: 0},
@@ -511,7 +391,6 @@ for (var i = 0; i < table_data.length; i++){
       .style("opacity", 1)
   }
   var mousemove = function(d) {
-    console.log(d.col4)
     Tooltip
       .html("x: " + d.col1 + ", y: " + d.col4 + ", z: " + d.col3)
       .style("left", (d3.mouse(this)[0]+70) + "px")
@@ -594,6 +473,10 @@ for (var i = 0; i < table_data.length; i++){
     //});
 
 </script>
+
+
+
+
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 
