@@ -16,7 +16,6 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -58,28 +57,13 @@
 
             <!-- Nav Item - Fortran Parse -->
             <li class="nav-item active">
-                <a class="nav-link" href="cards.html">
+                <a class="nav-link" href="parse.html">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Fortran Parse</span></a>
             </li>
 
-            <!-- Nav Item - TBD -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>TBD</span></a>
-            </li>
-
-            <!-- Nav Item - TBD -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>TBD</span></a>
-            </li>
-
-
         </ul>
-        <!-- End of Sidebar -->
+
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -97,9 +81,6 @@
                     </button>
 
                     <!-- Topbar Search -->
-
-
-
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" 
                         action= "{{ url_for("index")}}" method="post" label = "sequence">
@@ -124,14 +105,13 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Fortran Parse</h1>
+                </div>      
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" id="container-fluid1">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Fortran Parse</h1>
-                    </div>      
 
                     <div class="row">
                         <div class="card shadow mb-4">
@@ -142,24 +122,75 @@
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse hide" id="collapseCardExample">
-                                <div class="card-body" id="resultSequence">
+                                <a href="#sequenceCollapse" class="d-block card-header py-2" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="sequenceCollapse">
+                                        <h6 class="m-0 font-weight-bold text-primary">Sequence</h6>
+                                </a>
+                                <div class="collapse hide" id="sequenceCollapse">
+                                    <div class="card-body" id="resultSequence"></div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
+                    <div class="collapse hide" id="collapseCardExample">
+                        <div class="row">
 
-                    <div class="row">
+                            <!-- Sequence Length -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
+                                                    Sequence Length</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"id='sequence_length1'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
-                                                Sequence Length</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"id='sequence_length'></div>
+                            <!-- Whole Sequence nu_model -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
+                                                    Whole Sequence nu_model</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id='nu_model1'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+     
+                            <!-- Whole sequence B-turn prop -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
+                                                    Whole sequence β-turn prop</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id='b_turn1'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Whole sequence r_model -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Whole sequence r_model</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"id='r_model1'></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,178 +198,169 @@
                         </div>
 
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
-                                                Whole Sequence nu_model</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id='nu_model'></div>
+                        <div class = "row">
+                            <!-- Number of blue domains -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
+                                                    Number of PS (blue) domains</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id='blue1' ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Number of red domains -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Number of ID (red) domains</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id='red1'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Number of black domains -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-secondary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
+                                                    Number of F (black) domains</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id='black1' ></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
- 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
-                                                Whole sequence β-turn prop</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id='b_turn'></div>
-                                        </div>
-                                    </div>
+                        <!-- DataTable -->
+                        <div class="card shadow mb-4">
+                            <a href="#dataTableCollapse" class="d-block card-header py-3" data-toggle="collapse"
+                                role="button" aria-expanded="true" aria-controls="dataTableCollapse"> 
+                                <h6 class="m-0 font-weight-bold text-primary">DataTable</h6>
+                            </a>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse hide" id="dataTableCollapse">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Domain Type</th>
+                                                <th>Domain No.</th>
+                                                <th>First Residue</th>
+                                                <th>Last Residue</th>
+                                                <th>Length</th>
+                                            </tr>
+                                        </thead>
+                                         <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Whole sequence r_model</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"id='r_model'></div>
-                                        </div>
-                                    </div>
-                                </div>
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Plot</h6>
                             </div>
+                                    <div id='residue_plot' ></div>
+                                    
+
                         </div>
-                    </div>
-                      <!--new row-->
-                    <div class = "row">
-
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
-                                                Number of PS (blue) domains</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id='blue' ></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Number of ID (red) domains</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id='red'></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-secondary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" >
-                                                Number of F (black) domains</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id='black' ></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Domain Type</th>
-                                            <th>Domain No.</th>
-                                            <th>First Residue</th>
-                                            <th>Last Residue</th>
-                                            <th>Length</th>
-                                        </tr>
-                                    </thead>
-                                     <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-  
- 
-                </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Plot</h6>
-                        </div>
-                                <div id='residue_plot' ></div>
-                                
-
-                    </div>
-
-
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Plot 2</h6>
-                        </div>
-                                <div id='color_plot' ></div>
-
-                    </div>
+                    </div>        
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>CU Boulder &copy; CMD2WEB</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
         <!-- End of Content Wrapper -->
 
+            <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>CU Boulder &copy; CMD2WEB</span>
+                </div>
+            </div>
+        </footer>
+            <!-- End of Footer -->
     </div>
+</div>
+ <!-- End of Page Wrapper -->
 
-<!-- End of Page Wrapper -->
 <script>
+    var elem = document.querySelector('#container-fluid1');
+    var clone = elem.cloneNode(true);
+    clone.id = 'container-fluid2';
+    clone.classList.add('container-fluid');
+    elem.after(clone);
 
-//var slides = '{{data}}'
-//var test = slides.split(",")
-//console.log(slides)
+    var elms = document.querySelectorAll("[id='sequence_length1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'sequence_length2');
+
+    var elms = document.querySelectorAll("[id='nu_model1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'nu_model2');
+
+    var elms = document.querySelectorAll("[id='b_turn1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'b_turn2');
+
+    var elms = document.querySelectorAll("[id='r_model1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'r_model2');
+
+    var elms = document.querySelectorAll("[id='blue1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'blue2');
+
+    var elms = document.querySelectorAll("[id='red1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'red2');
+
+    var elms = document.querySelectorAll("[id='black1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'black2');
+
+
+</script>
+
+<script>
 const jsonfile = JSON.parse({{jsonfile|tojson}});
 console.log(jsonfile);
 document.getElementById("resultSequence").innerHTML = jsonfile['result'];
-document.getElementById("sequence_length").innerHTML = jsonfile['sequence_length'];
-document.getElementById("nu_model").innerHTML = jsonfile['nu_model'];
-document.getElementById("b_turn").innerHTML = jsonfile['b_turn'];
-document.getElementById("r_model").innerHTML = jsonfile['r_model'];
-document.getElementById("blue").innerHTML = jsonfile['blue'];
-document.getElementById("red").innerHTML = jsonfile['red'];
-document.getElementById("black").innerHTML = jsonfile['black'];
+document.getElementById("sequence_length1").innerHTML = jsonfile['sequence_length'];
+document.getElementById("nu_model1").innerHTML = jsonfile['nu_model'];
+document.getElementById("b_turn1").innerHTML = jsonfile['b_turn'];
+document.getElementById("r_model1").innerHTML = jsonfile['r_model'];
+document.getElementById("blue1").innerHTML = jsonfile['blue'];
+document.getElementById("red1").innerHTML = jsonfile['red'];
+document.getElementById("black1").innerHTML = jsonfile['black'];
+
+
+document.getElementById("resultSequence").innerHTML = jsonfile['result'];
+document.getElementById("sequence_length2").innerHTML = jsonfile['sequence_length'];
+document.getElementById("nu_model2").innerHTML = jsonfile['nu_model'];
+document.getElementById("b_turn2").innerHTML = jsonfile['b_turn'];
+document.getElementById("r_model2").innerHTML = jsonfile['r_model'];
+document.getElementById("blue2").innerHTML = jsonfile['blue'];
+document.getElementById("red2").innerHTML = jsonfile['red'];
+document.getElementById("black2").innerHTML = jsonfile['black'];
+
+
 var table_data = jsonfile['table']
-var table = document.getElementById('dataTable')
+var table = document.getElementById('dataTable1')
 console.log(table_data.length)
 for (var i = 0; i < table_data.length; i++){
     var row = table.insertRow(i+1)
@@ -491,5 +513,3 @@ for (var i = 0; i < table_data.length; i++){
     <script src="js/sb-admin-2.min.js"></script>
 
 </body>
-
-</html>
