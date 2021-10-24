@@ -343,36 +343,40 @@
 <script>
 const jsonfile = JSON.parse({{jsonfile|tojson}});
 console.log(jsonfile);
-document.getElementById("resultSequence").innerHTML = jsonfile['result'];
-document.getElementById("sequence_length1").innerHTML = jsonfile['sequence_length'];
-document.getElementById("nu_model1").innerHTML = jsonfile['nu_model'];
-document.getElementById("b_turn1").innerHTML = jsonfile['b_turn'];
-document.getElementById("r_model1").innerHTML = jsonfile['r_model'];
-document.getElementById("blue1").innerHTML = jsonfile['blue'];
-document.getElementById("red1").innerHTML = jsonfile['red'];
-document.getElementById("black1").innerHTML = jsonfile['black'];
+for (var i = 0; i < jsonfile.length; i++){
+    j = i+1
+    entry = jsonfile[i];
+    document.getElementById("resultSequence").innerHTML = entry['result'];
+    document.getElementById("sequence_length"+j).innerHTML = entry['sequence_length'];
+    document.getElementById("nu_model"+j).innerHTML = entry['nu_model'];
+    document.getElementById("b_turn"+j).innerHTML = entry['b_turn'];
+    document.getElementById("r_model"+j).innerHTML = entry['r_model'];
+    document.getElementById("blue"+j).innerHTML = entry['blue'];
+    document.getElementById("red"+j).innerHTML = entry['red'];
+    document.getElementById("black"+j).innerHTML = entry['black'];
 
-
-document.getElementById("resultSequence").innerHTML = jsonfile['result'];
-document.getElementById("sequence_length2").innerHTML = jsonfile['sequence_length'];
-document.getElementById("nu_model2").innerHTML = jsonfile['nu_model'];
-document.getElementById("b_turn2").innerHTML = jsonfile['b_turn'];
-document.getElementById("r_model2").innerHTML = jsonfile['r_model'];
-document.getElementById("blue2").innerHTML = jsonfile['blue'];
-document.getElementById("red2").innerHTML = jsonfile['red'];
-document.getElementById("black2").innerHTML = jsonfile['black'];
-
-
-var table_data = jsonfile['table']
-var table = document.getElementById('dataTable1')
-console.log(table_data.length)
-for (var i = 0; i < table_data.length; i++){
-    var row = table.insertRow(i+1)
-    for(var j = 0; j < 5; j++){
-        var cell1 = row.insertCell(j);
-        cell1.innerHTML = table_data[i][j]
-    }
 }
+
+//document.getElementById("resultSequence").innerHTML = jsonfile['result'];
+//document.getElementById("sequence_length2").innerHTML = jsonfile['sequence_length'];
+//document.getElementById("nu_model2").innerHTML = jsonfile['nu_model'];
+//document.getElementById("b_turn2").innerHTML = jsonfile['b_turn'];
+//document.getElementById("r_model2").innerHTML = jsonfile['r_model'];
+//document.getElementById("blue2").innerHTML = jsonfile['blue'];
+//document.getElementById("red2").innerHTML = jsonfile['red'];
+//document.getElementById("black2").innerHTML = jsonfile['black'];
+
+
+//var table_data = jsonfile['table']
+//var table = document.getElementById('dataTable1')
+//console.log(table_data.length)
+//for (var i = 0; i < table_data.length; i++){
+//    var row = table.insertRow(i+1)
+//    for(var j = 0; j < 5; j++){
+//        var cell1 = row.insertCell(j);
+//        cell1.innerHTML = table_data[i][j]
+//    }
+//}
 
 </script>
 
