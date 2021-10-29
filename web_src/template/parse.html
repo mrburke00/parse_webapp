@@ -358,16 +358,21 @@ for (var i = 0; i < jsonfile.length; i++){
     document.getElementById("blue"+j).innerHTML = entry['blue'];
     document.getElementById("red"+j).innerHTML = entry['red'];
     document.getElementById("black"+j).innerHTML = entry['black'];
-    var table_data = jsonfile['table']
-    var table = document.getElementById('dataTable1')
+    
+    var table_data = entry['table']
+    var table = document.getElementById("dataTable"+j)
     console.log(table_data.length)
-    for (var i = 0; i < table_data.length; i++){
-        var row = table.insertRow(i+1)
-        for(var j = 0; j < 5; j++){
-            var cell1 = row.insertCell(j);
-            cell1.innerHTML = table_data[i][j]
+    console.log(table)
+    
+    for (var x = 0; x < table_data.length; x++){
+        var row = table.insertRow(x+1)
+        for(var y = 0; y < 5; y++){
+            var cell1 = row.insertCell(y);
+            cell1.innerHTML = table_data[x][y]
         }
     }
+    
+    
 
 }
 
@@ -449,7 +454,7 @@ for (var i = 0; i < jsonfile.length; i++){
   }
 
 
- d3.csv("/js/residue_level_rmodel_new.csv", function(error, data) {
+ d3.csv("/js/residue_level_rmodel_new_1.csv", function(error, data) {
     if (error) {
         throw error;
     }
@@ -573,7 +578,7 @@ for (var i = 0; i < jsonfile.length; i++){
   }
 
 
- d3.csv("/js/residue_level_rmodel_new.csv", function(error, data) {
+ d3.csv("/js/residue_level_rmodel_new_2.csv", function(error, data) {
     if (error) {
         throw error;
     }

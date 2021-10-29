@@ -7,7 +7,11 @@ sys.path.insert(1,parse)
 import fortran_parse
 import json
 
+def clean():
+	os.system('rm -r residue_level_rmodel*')
+	os.system('rm -r/cmd2web/src/web_src/static/js/residue_level_rmodel_new*')
 def fortran_wrap(cmd):
+	clean()
 	cmds = cmd.split()
 	f_call = cmds[0:6]
 	cmds = cmds[6:]
@@ -27,7 +31,7 @@ def fortran_wrap(cmd):
 				print(line)
 				if line.strip() != '':
 					temp.append(line.strip())
-				#print(temp)
+			os.system('mv residue_level_rmodel.csv residue_level_rmodel_'+str(i)+'.csv')
 			out = fortran_parse.process_parse(temp,i)
 			json_list.append(out)
 			i = i + 1

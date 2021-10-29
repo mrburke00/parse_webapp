@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 def manipulate_csv(count):
-    parse = os.path.abspath('residue_level_rmodel.csv')
+    parse = os.path.abspath('residue_level_rmodel_'+str(count)+'.csv')
     df = pd.read_csv(parse, header = None)
     df.rename(columns={0: 'col1', 1:'col2', 2: 'col3', 3: 'col4'}, inplace=True)
     parent = os.path.abspath(os.getcwd())
