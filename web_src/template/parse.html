@@ -333,6 +333,10 @@
     var secondElement = elms[1];
     secondElement.setAttribute('id', 'black2');
 
+    var elms = document.querySelectorAll("[id='dataTable1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'dataTable2');
+
     var elms = document.querySelectorAll("[id='residue_plot1']");
     var secondElement = elms[1];
     secondElement.setAttribute('id', 'residue_plot2');
@@ -354,6 +358,16 @@ for (var i = 0; i < jsonfile.length; i++){
     document.getElementById("blue"+j).innerHTML = entry['blue'];
     document.getElementById("red"+j).innerHTML = entry['red'];
     document.getElementById("black"+j).innerHTML = entry['black'];
+    var table_data = jsonfile['table']
+    var table = document.getElementById('dataTable1')
+    console.log(table_data.length)
+    for (var i = 0; i < table_data.length; i++){
+        var row = table.insertRow(i+1)
+        for(var j = 0; j < 5; j++){
+            var cell1 = row.insertCell(j);
+            cell1.innerHTML = table_data[i][j]
+        }
+    }
 
 }
 

@@ -11,7 +11,8 @@ def fortran_wrap(cmd):
 	cmds = cmd.split()
 	f_call = cmds[0:6]
 	cmds = cmds[6:]
-	json_list = [] 
+	json_list = []
+	i = 1
 	for cmd in cmds:
 		if cmd != '>':
 			out_file_name = '/tmp/' + str(random.randint(0,sys.maxsize)) + '.out'
@@ -27,8 +28,9 @@ def fortran_wrap(cmd):
 				if line.strip() != '':
 					temp.append(line.strip())
 				#print(temp)
-			out = fortran_parse.process_parse(temp)
+			out = fortran_parse.process_parse(temp,i)
 			json_list.append(out)
+			i = i + 1
 		#return json.dumps(out)
 		else:
 			continue

@@ -1,16 +1,16 @@
 import pandas as pd
 import os
 
-def manipulate_csv():
+def manipulate_csv(count):
     parse = os.path.abspath('residue_level_rmodel.csv')
     df = pd.read_csv(parse, header = None)
     df.rename(columns={0: 'col1', 1:'col2', 2: 'col3', 3: 'col4'}, inplace=True)
     parent = os.path.abspath(os.getcwd())
-    df.to_csv(parent + '/cmd2web/src/web_src/static/js/residue_level_rmodel_new.csv', index=False) # save to new csv file
+    df.to_csv(parent + '/cmd2web/src/web_src/static/js/residue_level_rmodel_new_'+str(count)+'.csv', index=False) # save to new csv file
 
 
 
-def process_parse(temp):
+def process_parse(temp, count):
 
     out = {}
     out['result'] = temp[0]
@@ -44,5 +44,5 @@ def process_parse(temp):
                 new_row.append(x[index].strip(','))
         rows.append(new_row)
     out['table'] = rows
-    manipulate_csv()
+    manipulate_csv(count)
     return out
