@@ -10,11 +10,12 @@ def manipulate_csv(count):
 
 
 
-def process_parse(temp, count):
+def process_parse(temp, count, name):
 
     out = {}
     out['result'] = temp[0]
     line = temp[1].split()
+    out['sample_name'] = name
     out['sequence_length'] = line[2]
 
     res = [temp.index(i) for i in temp if 'Whole' in i]

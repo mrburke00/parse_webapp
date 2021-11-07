@@ -118,7 +118,7 @@
                             <!-- Card Header - Accordion -->
                             <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
                                 role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                                <h6 class="m-0 font-weight-bold text-primary">Result Query Sequence</h6>
+                                <h6 class="m-0 font-weight-bold text-primary" id = "sample_name1" >Result Query Sequence</h6>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse hide" id="collapseCardExample">
@@ -307,6 +307,10 @@
     clone.classList.add('container-fluid');
     elem.after(clone);
 
+    var elms = document.querySelectorAll("[id='sample_name1']");
+    var secondElement = elms[1];
+    secondElement.setAttribute('id', 'sample_name2');
+
     var elms = document.querySelectorAll("[id='sequence_length1']");
     var secondElement = elms[1];
     secondElement.setAttribute('id', 'sequence_length2');
@@ -356,6 +360,7 @@ console.log(jsonfile);
 for (var i = 0; i < jsonfile.length; i++){
     j = i+1
     entry = jsonfile[i];
+    document.getElementById("sample_name"+j).innerHTML = entry['sample_name'];
     document.getElementById("resultSequence").innerHTML = entry['result'];
     document.getElementById("sequence_length"+j).innerHTML = entry['sequence_length'];
     document.getElementById("nu_model"+j).innerHTML = entry['nu_model'];
