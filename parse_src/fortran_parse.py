@@ -1,6 +1,11 @@
 import pandas as pd
 import os
 
+
+'''
+Manipulate CSV for display purposes
+Returns different CSV file for each sequence 
+'''
 def manipulate_csv(count):
     parse = os.path.abspath('residue_level_rmodel_'+str(count)+'.csv')
     df = pd.read_csv(parse, header = None)
@@ -9,9 +14,11 @@ def manipulate_csv(count):
     df.to_csv(parent + '/cmd2web/src/web_src/static/js/residue_level_rmodel_new_'+str(count)+'.csv', index=False) # save to new csv file
 
 
-
+'''
+Parse script output for web display 
+Return json object for each sequence 
+'''
 def process_parse(temp, count, name):
-
     out = {}
     out['result'] = temp[0]
     line = temp[1].split()

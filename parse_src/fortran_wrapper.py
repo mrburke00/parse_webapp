@@ -7,10 +7,18 @@ sys.path.insert(1,parse)
 import fortran_parse
 import json
 
+'''
+Remove old artifact files with each new query 
+'''
 def clean():
 	os.system('rm -r residue_level_rmodel*')
 	os.system('rm -r /cmd2web/src/web_src/static/js/residue_level_rmodel_new*')
 
+'''
+For non file sequence queries, but can still handle multiple protein sequences
+Parse each input sequence and send to Parse.f script
+Get each return and send to fortran_parse.process_parse() display 
+'''
 def fortran_wrap(cmd):
 	clean()
 	cmds = cmd.split()
@@ -36,11 +44,15 @@ def fortran_wrap(cmd):
 			out = fortran_parse.process_parse(temp,i)
 			json_list.append(out)
 			i = i + 1
-		#return json.dumps(out)
 		else:
 			continue
 	return json.dumps(json_list)
 
+'''
+For file specific protein sequence input
+Parse each sequence in file and send to Parse.f script
+Get each return and send to fortran_parse.process_parse() for web display 
+'''
 def fortran_wrap_file(cmd):
 	clean()
 	cmds = cmd.split()
