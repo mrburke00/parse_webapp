@@ -1,5 +1,7 @@
 # parse_webapp
 
+A multiple protein sequence capable visualization and analysis web app built on the Cmd2Web framework.
+
 # Setup (In Progress)
 Clone Repo
 ```
