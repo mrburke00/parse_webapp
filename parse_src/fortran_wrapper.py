@@ -27,7 +27,9 @@ def fortran_wrap(cmd):
 	json_list = []
 	i = 1
 	for cmd in cmds:
-		if cmd != '>':
+		if '>' in cmd:
+			name = cmd.strip()
+		else:
 			out_file_name = '/tmp/' + str(random.randint(0,sys.maxsize)) + '.out'
 			f_cmd = " ".join(f_call)
 			f_cmd += " " + cmd
@@ -41,11 +43,9 @@ def fortran_wrap(cmd):
 				if line.strip() != '':
 					temp.append(line.strip())
 			os.system('mv residue_level_rmodel.csv residue_level_rmodel_'+str(i)+'.csv')
-			out = fortran_parse.process_parse(temp,i)
+			out = fortran_parse.process_parse(temp,i, name)
 			json_list.append(out)
 			i = i + 1
-		else:
-			continue
 	return json.dumps(json_list)
 
 '''
@@ -53,14 +53,16 @@ For file specific protein sequence input
 Parse each sequence in file and send to Parse.f script
 Get each return and send to fortran_parse.process_parse() for web display 
 '''
-def fortran_wrap_file(cmd):
+def fortran_wrap_file(cmd, filename = None):
 	clean()
 	cmds = cmd.split()
 	f_call = cmds[0:6]
 	cmds = cmds[6:]
 	json_list = []
 	k = 1
-	with open(cmds[0], 'r') as infile:
+	if filename is None:
+		filename = cmds[0]
+	with open(filename, 'r') as infile:
 		lines = [line for line in infile]
 		for i in range(0,len(lines),2):
 			name = lines[i].strip()
