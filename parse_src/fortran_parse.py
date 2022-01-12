@@ -54,3 +54,4 @@ def process_parse(temp, count, name):
     out['table'] = rows
     manipulate_csv(count)
     return out
+

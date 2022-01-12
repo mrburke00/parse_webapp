@@ -1,6 +1,6 @@
 [submodule "cmd2web"]
 	path = cmd2web
-	url = https://github.com/mrburke00/cmd2web.git
+	url = git@github.com:mrburke00/cmd2web_2.0.git
 [submodule "cmd2web_2.0"]
 	path = cmd2web_2.0
 	url = git@github.com:mrburke00/cmd2web_2.0.git
