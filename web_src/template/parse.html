@@ -129,7 +129,7 @@
                             <div class="collapse hide" id="collapseCardExample">
                                 <a href="#sequenceCollapse" class="d-block card-header py-2" data-toggle="collapse"
                                     role="button" aria-expanded="true" aria-controls="sequenceCollapse">
-                                        <h6 class="m-0 font-weight-bold text-primary">Sequence</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Sequence Result</h6>
                                 </a>
                                 <div class="collapse hide" id="sequenceCollapse">
                                     <div class="card-body" id="resultSequence"></div>
@@ -304,67 +304,325 @@
     </div>
 </div>
  <!-- End of Page Wrapper -->
-
 <script>
+    function createSmallPlot(count){
+            // set the dimensions and margins of the graph
+    var margin = {top: -100, right: 0, bottom:135, left: -100},
+        width = 1200 - margin.left - margin.right,
+        height = 150 - margin.top - margin.bottom;
+
+    var svg1 = d3.select("#residue_plot_small"+count)
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+
+
+    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
+        yScale = d3.scaleLinear().range ([height, 0]);
+
+    var g = svg1.append("g")
+               .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+    // create a tooltip
+  var Tooltip = d3.select("#residue_plot_small"+count)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+  // Three function that change the tooltip when user hover / move / leave a cell
+  var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .html("x: " + d.col1 + ", y: " + d.col4 + ", z: " + d.col3)
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
+
+
+ d3.csv("/js/residue_level_rmodel_new_"+count+".csv", function(error, data) {
+    if (error) {
+        throw error;
+    }
+
+
+        xScale.domain(data.map(function(d) { return d.col1; }));
+        yScale.domain([d3.min(data, function(d) { return d.col4; }), d3.max(data, function(d) { return d.col4; })]);
+
+
+        g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale).tickValues(xScale.domain().filter(function(d,i){ return !(i%50)})))
+         .append("text")
+         //.attr("y", height/2)
+         //.attr("x", width/2)
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("Residue Number");
+ 
+         /*
+        g.append("g")
+         .call(d3.axisLeft(yScale).tickFormat(function (d){
+            return d3.format(".1f")(d);
+        }))
+        .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 6)
+         .attr("dy", "-5.1em")
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("r Model Value");
+        */
+        g.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+         .attr("class", "bar")
+         .attr("x", function(d) { return xScale(d.col1); })
+         .attr("y", function(d) { return yScale(d.col4); })
+         .attr("width", xScale.bandwidth())
+         .attr("height", function(d) { return height - yScale(d.col4); })
+         .attr("fill", function(d){
+            JSON.stringify(d);
+            if (d.col3 == ' D')
+            {
+                return 'blue';
+            }
+            else if (d.col3 == ' F')
+            {
+                return 'black';
+            }
+            else
+            {
+                return 'red'
+            }
+         })
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
+
+
+    });
+    return g
+}
+
+
+
+function createLargePlot(count){
+    // set the dimensions and margins of the graph
+    var margin = {top: 0, right: 0, bottom:250, left: 0},
+        width = 1000 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var svg2 = d3.select("#residue_plot"+count)
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+
+
+    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
+        yScale = d3.scaleLinear().range ([height, 0]);
+
+    var g = svg2.append("g")
+               .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+    // create a tooltip
+  var Tooltip = d3.select("#residue_plot"+count)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+  // Three function that change the tooltip when user hover / move / leave a cell
+  var mouseover = function(d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function(d) {
+    Tooltip
+      .html("x: " + d.col1 + ", y: " + d.col4 + ", z: " + d.col3)
+      .style("left", (d3.mouse(this)[0]+70) + "px")
+      .style("top", (d3.mouse(this)[1]) + "px")
+  }
+  var mouseleave = function(d) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
+
+
+ d3.csv("/js/residue_level_rmodel_new_"+count+".csv", function(error, data) {
+    if (error) {
+        throw error;
+    }
+
+
+        xScale.domain(data.map(function(d) { return d.col1; }));
+        yScale.domain([d3.min(data, function(d) { return d.col4; }), d3.max(data, function(d) { return d.col4; })]);
+
+
+        g.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(xScale).tickValues(xScale.domain().filter(function(d,i){ return !(i%50)})))
+         .append("text")
+         //.attr("y", height/2)
+         //.attr("x", width/2)
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("Residue Number");
+ 
+
+        g.append("g")
+         .call(d3.axisLeft(yScale).tickFormat(function (d){
+            return d3.format(".1f")(d);
+        }))
+        .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 6)
+         .attr("dy", "-5.1em")
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("r Model Value");
+
+        g.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+         .attr("class", "bar")
+         .attr("x", function(d) { return xScale(d.col1); })
+         .attr("y", function(d) { return yScale(d.col4); })
+         .attr("width", xScale.bandwidth())
+         .attr("height", function(d) { return height - yScale(d.col4); })
+         .attr("fill", function(d){
+            JSON.stringify(d);
+            if (d.col3 == ' D')
+            {
+                return 'blue';
+            }
+            else if (d.col3 == ' F')
+            {
+                return 'black';
+            }
+            else
+            {
+                return 'red'
+            }
+         })
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
+
+
+    });
+ return g
+}
+
+
+</script>
+<script>
+
+function addNew(count) {
+
     var elem = document.querySelector('#container-fluid1');
     var clone = elem.cloneNode(true);
-    clone.id = 'container-fluid2';
+    clone.id = 'container-fluid'+count;
     clone.classList.add('container-fluid');
     elem.after(clone);
 
     var elms = document.querySelectorAll("[id='sample_name1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'sample_name2');
+    secondElement.setAttribute('id', 'sample_name'+count);
 
     var elms = document.querySelectorAll("[id='sequence_length1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'sequence_length2');
+    secondElement.setAttribute('id', 'sequence_length'+count);
 
     var elms = document.querySelectorAll("[id='nu_model1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'nu_model2');
+    secondElement.setAttribute('id', 'nu_model'+count);
 
     var elms = document.querySelectorAll("[id='b_turn1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'b_turn2');
+    secondElement.setAttribute('id', 'b_turn'+count);
 
     var elms = document.querySelectorAll("[id='r_model1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'r_model2');
+    secondElement.setAttribute('id', 'r_model'+count);
 
     var elms = document.querySelectorAll("[id='blue1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'blue2');
+    secondElement.setAttribute('id', 'blue'+count);
 
     var elms = document.querySelectorAll("[id='red1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'red2');
+    secondElement.setAttribute('id', 'red'+count);
 
     var elms = document.querySelectorAll("[id='black1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'black2');
+    secondElement.setAttribute('id', 'black'+count);
 
     var elms = document.querySelectorAll("[id='dataTable1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'dataTable2');
+    secondElement.setAttribute('id', 'dataTable'+count);
 
     var elms = document.querySelectorAll("[id='residue_plot1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'residue_plot2');
+    secondElement.setAttribute('id', 'residue_plot'+count);
 
     var elms = document.querySelectorAll("[id='residue_plot_small1']");
     var secondElement = elms[1];
-    secondElement.setAttribute('id', 'residue_plot_small2');
-
-
+    secondElement.setAttribute('id', 'residue_plot_small'+count);
+    
+}
 </script>
 
 <script>
 const jsonfile = JSON.parse({{jsonfile|tojson}});
 console.log(jsonfile);
+for(var i=2; i<=jsonfile.length;i++){
+    console.log(i)
+    addNew(i)
+}
 for (var i = 0; i < jsonfile.length; i++){
     j = i+1
     entry = jsonfile[i];
+    if (j<=jsonfile.length)
+    {
+        console.log('1')
+        createSmallPlot(j)
+        createLargePlot(j)
+    }
+
     document.getElementById("sample_name"+j).innerHTML = entry['sample_name'];
     document.getElementById("resultSequence").innerHTML = entry['result'];
     document.getElementById("sequence_length"+j).innerHTML = entry['sequence_length'];
@@ -378,7 +636,7 @@ for (var i = 0; i < jsonfile.length; i++){
     var table_data = entry['table']
     var table = document.getElementById("dataTable"+j)
     console.log(table_data.length)
-    console.log(table)
+    //console.log(table)
     
     for (var x = 0; x < table_data.length; x++){
         var row = table.insertRow(x+1)
@@ -392,28 +650,13 @@ for (var i = 0; i < jsonfile.length; i++){
 
 }
 
-//document.getElementById("resultSequence").innerHTML = jsonfile['result'];
-//document.getElementById("sequence_length2").innerHTML = jsonfile['sequence_length'];
-//document.getElementById("nu_model2").innerHTML = jsonfile['nu_model'];
-//document.getElementById("b_turn2").innerHTML = jsonfile['b_turn'];
-//document.getElementById("r_model2").innerHTML = jsonfile['r_model'];
-//document.getElementById("blue2").innerHTML = jsonfile['blue'];
-//document.getElementById("red2").innerHTML = jsonfile['red'];
-//document.getElementById("black2").innerHTML = jsonfile['black'];
-
-
-//var table_data = jsonfile['table']
-//var table = document.getElementById('dataTable1')
-//console.log(table_data.length)
-//for (var i = 0; i < table_data.length; i++){
-//    var row = table.insertRow(i+1)
-//    for(var j = 0; j < 5; j++){
-//        var cell1 = row.insertCell(j);
-//        cell1.innerHTML = table_data[i][j]
-//    }
-//}
 
 </script>
+
+
+
+
+
 <!--
 <script>
     // set the dimensions and margins of the graph
@@ -663,256 +906,6 @@ for (var i = 0; i < jsonfile.length; i++){
 
 </script>
 -->
-<script>
-    // set the dimensions and margins of the graph
-    var margin = {top: -100, right: 0, bottom:135, left: -100},
-        width = 1200 - margin.left - margin.right,
-        height = 150 - margin.top - margin.bottom;
-
-    var svg1 = d3.select("#residue_plot_small1")
-          .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform",
-                  "translate(" + margin.left + "," + margin.top + ")");
-
-
-    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
-        yScale = d3.scaleLinear().range ([height, 0]);
-
-    var g = svg1.append("g")
-               .attr("transform", "translate(" + 100 + "," + 100 + ")");
-
-    // create a tooltip
-  var Tooltip = d3.select("#residue_plot_small1")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "black")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    Tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function(d) {
-    Tooltip
-      .html("x: " + d.col1 + ", y: " + d.col4 + ", z: " + d.col3)
-      .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
-  }
-  var mouseleave = function(d) {
-    Tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
-
-
- d3.csv("/js/residue_level_rmodel_new_1.csv", function(error, data) {
-    if (error) {
-        throw error;
-    }
-
-
-        xScale.domain(data.map(function(d) { return d.col1; }));
-        yScale.domain([d3.min(data, function(d) { return d.col4; }), d3.max(data, function(d) { return d.col4; })]);
-
-
-        g.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale).tickValues(xScale.domain().filter(function(d,i){ return !(i%50)})))
-         .append("text")
-         //.attr("y", height/2)
-         //.attr("x", width/2)
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("Residue Number");
- 
-         /*
-        g.append("g")
-         .call(d3.axisLeft(yScale).tickFormat(function (d){
-            return d3.format(".1f")(d);
-        }))
-        .append("text")
-         .attr("transform", "rotate(-90)")
-         .attr("y", 6)
-         .attr("dy", "-5.1em")
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("r Model Value");
-        */
-        g.selectAll(".bar")
-         .data(data)
-         .enter().append("rect")
-         .attr("class", "bar")
-         .attr("x", function(d) { return xScale(d.col1); })
-         .attr("y", function(d) { return yScale(d.col4); })
-         .attr("width", xScale.bandwidth())
-         .attr("height", function(d) { return height - yScale(d.col4); })
-         .attr("fill", function(d){
-            JSON.stringify(d);
-            if (d.col3 == ' D')
-            {
-                return 'blue';
-            }
-            else if (d.col3 == ' F')
-            {
-                return 'black';
-            }
-            else
-            {
-                return 'red'
-            }
-         })
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
-
-
-    });
-         //.attr("height", function(d) { return height - yScale(d.col4); });
-
-
-    //});
-
-</script>
-
-<script>
-    // set the dimensions and margins of the graph
-    var margin = {top: -100, right: 0, bottom:135, left: -100},
-        width = 1200 - margin.left - margin.right,
-        height = 150 - margin.top - margin.bottom;
-
-    var svg2 = d3.select("#residue_plot_small2")
-          .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform",
-                  "translate(" + margin.left + "," + margin.top + ")");
-
-
-    var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
-        yScale = d3.scaleLinear().range ([height, 0]);
-
-    var g2 = svg2.append("g")
-               .attr("transform", "translate(" + 100 + "," + 100 + ")");
-
-    // create a tooltip
-  var Tooltip = d3.select("#residue_plot_small2")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "black")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    Tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function(d) {
-    Tooltip
-      .html("x: " + d.col1 + ", y: " + d.col4 + ", z: " + d.col3)
-      .style("left", (d3.mouse(this)[0]+70) + "px")
-      .style("top", (d3.mouse(this)[1]) + "px")
-  }
-  var mouseleave = function(d) {
-    Tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
-
-
- d3.csv("/js/residue_level_rmodel_new_2.csv", function(error, data) {
-    if (error) {
-        throw error;
-    }
-
-
-        xScale.domain(data.map(function(d) { return d.col1; }));
-        yScale.domain([d3.min(data, function(d) { return d.col4; }), d3.max(data, function(d) { return d.col4; })]);
-
-        
-        g2.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale).tickValues(xScale.domain().filter(function(d,i){ return !(i%50)})))
-         .append("text")
-         //.attr("y", height/2)
-         //.attr("x", width/2)
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("Residue Number");
-        
-         /*
-        g2.append("g")
-         .call(d3.axisLeft(yScale).tickFormat(function (d){
-            return d3.format(".1f")(d);
-        }))
-        .append("text")
-         .attr("transform", "rotate(-90)")
-         .attr("y", 6)
-         .attr("dy", "-5.1em")
-         .attr("text-anchor", "end")
-         .attr("stroke", "black")
-         .text("r Model Value");
-        */
-
-        g2.selectAll(".bar")
-         .data(data)
-         .enter().append("rect")
-         .attr("class", "bar")
-         .attr("x", function(d) { return xScale(d.col1); })
-         .attr("y", function(d) { return yScale(d.col4); })
-         .attr("width", xScale.bandwidth())
-         .attr("height", function(d) { return height - yScale(d.col4); })
-         .attr("fill", function(d){
-            JSON.stringify(d);
-            if (d.col3 == ' D')
-            {
-                return 'blue';
-            }
-            else if (d.col3 == ' F')
-            {
-                return 'black';
-            }
-            else
-            {
-                return 'red'
-            }
-         })
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
-
-
-    });
-         //.attr("height", function(d) { return height - yScale(d.col4); });
-
-
-    //});
-
-</script>
-
-
 
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
