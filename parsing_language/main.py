@@ -3,6 +3,12 @@ from itertools import groupby
 from operator import itemgetter
 import numpy as np
 import re
+import json
+
+def loadQueryRules(query_rules_file):
+	with open(query_rules_file) as json_file:
+		data = json.load(json_file)
+	return data
 
 def slidingWindow(sequence, window_size):
     if len(sequence) <= window_size:
@@ -13,7 +19,7 @@ def slidingWindow(sequence, window_size):
 def extractPS(sequence, queries):
 	threshold = float(queries['threshold'])
 	N = int(queries['N'])
-	
+
 	win_gen = slidingWindow(sequence, N)
 
 	poss_regions = []
@@ -41,29 +47,70 @@ def extractPS(sequence, queries):
 			ps_regions.append(consec_regions[r+1])
 	return ps_regions
 
-def constructQuery(query):
+def constructQuery(query, query_rules):
+	# WILL HAVE TO CHANGE FOR MULTIPLE QUERIES
+	subject = query.split('??')[0].strip('[ ]').lower()
+	target = query.split('??')[1].strip('[ ]').lower()
+	options = query.split('??')[2].strip('[ ]').lower()
+	query = subject + '??' + target
+	
+	try: subject in query_rules.keys()
+	except: raise ValueError("Subject of query is not supported.")
+
+	letter_target = str(list(target)[0])
+	try: letter_target in query_rules[subject].keys()
+	except: raise ValueError("Target of query is not supported.")
+
+	eq_delimiters = query_rules[subject][letter_target]['eq_delims']
+	regexPattern = '|'.join(map(re.escape, eq_delimiters))
+
+	try : eq_index = re.search(regexPattern, query)
+	except : raise ValueError("Equality of query is not supported.")
+	eq = query[eq_index.start():eq_index.end()]
+
+	#try : eq_index = re.search(regexPattern, options)
+
+	###NEED TO TYPE CHECK THE OPTIONS 
+	### THEN NEED TO MAKE SURE EACH REQUIRED OPTION IS ACCOUNTED FOR IN THE QUERY
+
+	query_options = query_rules[subject]['options']
+	required_options = [key for key,value in query_options.items() if value['required'] == 'True']
+	
+	options = options.split(':')
+	print(options)
+	for req_op in required_options:
+		break
+
+		#	targets = ['P', 'F', 'D']
+		#	target = next(t for t in targets if t in params)
+		#	threshold = params[eq_index.end():]
+		#	queries['eq'] = eq
+		#	queries['target'] = target
+		#	queries['threshold'] = threshold
+
+
+	'''	
 	queries = {}
-	options = query.split('?')[1:]
-	params = query.split('?')[0]
+		options = query.split('?')[1:]
+		params = query.split('?')[0]
 
-	if options:
-		for option in options:
-			queries[option.split('=')[0]] = option.split('=')[1]
+		if options:
+			for option in options:
+				queries[option.split('=')[0]] = option.split('=')[1]
 
-	if params:
-		eq_delimiters = [">=", "=>", "=", "<=", "=<"]
-		regexPattern = '|'.join(map(re.escape, eq_delimiters))
-		eq_index = re.search(regexPattern, params)
-		eq = params[eq_index.start():eq_index.end()]
-		targets = ['P', 'F', 'D']
-		target = next(t for t in targets if t in params)
-		threshold = params[eq_index.end():]
-		queries['eq'] = eq
-		queries['target'] = target
-		queries['threshold'] = threshold
-
-	return queries
-				
+		if params:
+			eq_delimiters = [">=", "=>", "=", "<=", "=<"]
+			regexPattern = '|'.join(map(re.escape, eq_delimiters))
+			eq_index = re.search(regexPattern, params)
+			eq = params[eq_index.start():eq_index.end()]
+			targets = ['P', 'F', 'D']
+			target = next(t for t in targets if t in params)
+			threshold = params[eq_index.end():]
+			queries['eq'] = eq
+			queries['target'] = target
+			queries['threshold'] = threshold
+		return queries			
+	'''
 
 #[*][p>=50][*]
 #[p>=50][*]
@@ -71,11 +118,12 @@ def constructQuery(query):
 #[dsfasdf] | [adfasdaaaa]
 def main():
 
-	sequence = query_load()
-	query = 'P>=0.9?N=50'
-	queries = constructQuery(query)
-	ps_regions = extractPS(sequence, queries)
-	print(ps_regions)
+	#sequence = query_load()
+	query = '[PFD??P>=0.9??N=50:MERGE<=25]'
+	query_rules = loadQueryRules('query_rules.json')
+	queries = constructQuery(query, query_rules)
+	#ps_regions = extractPS(sequence, queries)
+	#print(ps_regions)
 
 if __name__ == "__main__":
     main()
