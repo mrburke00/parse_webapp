@@ -36,7 +36,14 @@
     {
         "a" : 
         {
-            "tbd" : "tbd"
+            "eq_delims" : ["&=", "="]
+        },
+        "options" : 
+        {
+            "N" : 
+            {
+                "required" : "True"
+            }
         }
     }       
 }
