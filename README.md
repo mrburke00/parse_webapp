@@ -20,7 +20,7 @@ Run configure script
 ```
 bash parse_src/configure.sh 
 ```
-Change `command` path in `cmd2web/ex_configs/tabix_config.json
+Change `command` path in `cmd2web/ex_configs/parse_config.json
 ```
         "name" : "parse",
         ...
@@ -31,9 +31,9 @@ Change `command` path in `cmd2web/ex_configs/tabix_config.json
             "$sequence"
         ],
 ```
-Start Server (need to change a few paths in tabix_config.json)
+Start Server (need to change a few paths in parse_config.json)
 ```
-python cmd2web/src/server.py --config cmd2web/ex_configs/tabix_config.json 
+python cmd2web/src/server.py --config cmd2web/ex_configs/parse_config.json 
 ```
 Navigate to http://127.0.0.1:8080/parse
 Enter query sequence into search bar (note: hit enter to submit, button is broken right now)
